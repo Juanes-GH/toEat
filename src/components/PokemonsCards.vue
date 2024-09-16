@@ -1,28 +1,17 @@
 <script setup lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
-import axios from 'axios'
+import { onMounted, ref } from 'vue'
+import { getPokemons } from '@/services/pokemonService'
 
 interface Pokemon {
-  name: String
-  image: String
+  name: string
+  image: string
 }
 
 const pokemonsList = ref<Pokemon[]>([])
 
 onMounted(async () => {
   try {
-    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?offset=10&limit=10`)
-    const pokemonData = response.data.results
-
-    const pokemonDetailsPromises = pokemonData.map(async (pokemon) => {
-      const pokemonDetailResponse = await axios.get(pokemon.url)
-      return {
-        name: pokemon.name,
-        image: pokemonDetailResponse.data.sprites.front_default
-      }
-    })
-
-    pokemonsList.value = await Promise.all(pokemonDetailsPromises)
+    pokemonsList.value = await getPokemons(20, 20)
   } catch (error) {
     console.error('Error al obtener los datos:', error)
   }
@@ -32,26 +21,32 @@ onMounted(async () => {
 <template>
   <div>
     <h1>Componente de cards</h1>
-    <main>
-      <div v-for="pokemon in pokemonsList" :key="pokemon.name" class="pokemon-card">
-        <h2>{{ pokemon.name }}</h2>
-        <img :src="pokemon.image" :alt="pokemon.name" />
-      </div>
+    <main class="cards-container">
+      <ul>
+        <li v-for="pokemon in pokemonsList" :key="pokemon.name" class="pokemon-card">
+          <h2 class="pokemon-name">{{ pokemon.name }}</h2>
+          <img :src="pokemon.image" :alt="pokemon.name" class="pokemon-image" />
+        </li>
+      </ul>
     </main>
-
     <button class="load-more-pokemons-btn">Load more Pokémons</button>
   </div>
 </template>
 
 <style>
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
 .pokemon-card {
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 10px;
   text-align: center;
-  width: 150px;
-  margin: 10px;
-  background-color: #f8f8f8;
+  width: 200px;
+  margin: 1rem;
+  background-color: #c8f9f5;
   cursor: pointer;
 }
 .pokemon-card:hover {
@@ -59,16 +54,22 @@ onMounted(async () => {
 }
 
 .pokemon-image {
-  width: 100px;
-  height: 100px;
+  width: 100%;
+  height: auto;
 }
 
 .pokemon-name {
   font-size: 18px;
   font-weight: bold;
+  margin: 1rem;
   font-family: 'Roboto', sans-serif;
 
   font-weight: 700;
-  font-style: normal;
+  text-transform: uppercase;
+}
+@media (max-width: 600px) {
+  .pokemon-card {
+    width: 100%;
+  }
 }
 </style>

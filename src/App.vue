@@ -24,7 +24,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <style scoped>
 header {
-  background-color: #fef8d6;
+  background-color: #fbf5d3;
 }
 .wrapper {
   display: flex;
@@ -51,25 +51,27 @@ nav {
 .home-link {
   padding: 1rem;
   text-decoration: none;
-  color: #77c8e9;
+  color: #006cee;
 
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-style: normal;
 }
 .home-link:hover {
-  color: #b677e9;
+  color: #fdfcf9;
+  background-color: #fc4580;
 }
 .pokemon-list-link {
   padding: 1rem;
   text-decoration: none;
-  color: #77c8e9;
+  color: #006cee;
 
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
   font-style: normal;
 }
 .pokemon-list-link:hover {
-  color: #b677e9;
+  color: #fdfcf9;
+  background-color: #fc4580;
 }
 </style>
