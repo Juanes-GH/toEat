@@ -8,49 +8,71 @@ interface Pokemon {
 }
 
 const pokemonsList = ref<Pokemon[]>([])
+const offset = ref(0)
+const limit = ref(20)
 
-onMounted(async () => {
+async function fetchPokemons() {
   try {
-    pokemonsList.value = await getPokemons(20, 20)
+    const newPokemons = await getPokemons(offset.value, limit.value)
+    pokemonsList.value = [...pokemonsList.value, ...newPokemons]
+    offset.value += limit.value
   } catch (error) {
     console.error('Error al obtener los datos:', error)
   }
+}
+onMounted(() => {
+  fetchPokemons()
 })
+
+function handleClick() {
+  limit.value = 8
+  fetchPokemons()
+}
 </script>
 
 <template>
-  <div>
-    <h1>Componente de cards</h1>
-    <main class="cards-container">
-      <ul>
-        <li v-for="pokemon in pokemonsList" :key="pokemon.name" class="pokemon-card">
-          <h2 class="pokemon-name">{{ pokemon.name }}</h2>
-          <img :src="pokemon.image" :alt="pokemon.name" class="pokemon-image" />
-        </li>
-      </ul>
-    </main>
-    <button class="load-more-pokemons-btn">Load more Pokémons</button>
+  <h1 class="tittle">Pokédex</h1>
+  <main class="cards-container">
+    <div class="pokemon-card" v-for="pokemon in pokemonsList" :key="pokemon.name">
+      <h2 class="pokemon-name">{{ pokemon.name }}</h2>
+      <img :src="pokemon.image" :alt="pokemon.name" class="pokemon-image" />
+    </div>
+  </main>
+  <div class="btn-container">
+    <button class="load-more-pokemons-btn" @click="handleClick">Load more Pokémons</button>
   </div>
 </template>
 
 <style>
-.cards-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
+div button {
+  align-items: center;
 }
+.tittle {
+  text-align: center;
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+  color: #fc4580;
+}
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin: 20px;
+}
+
 .pokemon-card {
-  border: 1px solid #ddd;
+  border: 3px solid #ddd;
   border-radius: 8px;
   padding: 10px;
   text-align: center;
-  width: 200px;
-  margin: 1rem;
-  background-color: #c8f9f5;
+  background-color: #fbfcef;
   cursor: pointer;
+  transition: transform 0.3s ease-in-out;
 }
+
 .pokemon-card:hover {
-  border: 5px solid #1f0a54;
+  transform: scale(1.05);
+  border-color: #fc4580;
 }
 
 .pokemon-image {
@@ -61,15 +83,43 @@ onMounted(async () => {
 .pokemon-name {
   font-size: 18px;
   font-weight: bold;
-  margin: 1rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
   font-family: 'Roboto', sans-serif;
-
-  font-weight: 700;
   text-transform: uppercase;
 }
+.load-more-pokemons-btn {
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+  background-color: #fc4580;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+.btn-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.load-more-pokemons-btn:hover {
+  background-color: #fc451b;
+}
+
+@media (max-width: 960px) {
+  .cards-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 600px) {
-  .pokemon-card {
-    width: 100%;
+  .cards-container {
+    grid-template-columns: 1fr;
   }
 }
 </style>

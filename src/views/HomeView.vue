@@ -2,8 +2,8 @@
 import { ref } from 'vue'
 
 interface Restaurant {
-  name?: string
-  status?: RestaurantStatus
+  name: string
+  status: RestaurantStatus
   dishes?: Dish[]
 }
 
@@ -24,5 +24,7 @@ function addRestaurant() {
 </script>
 
 <template>
-  <main>Esta pagina esta hecha solamente para el aprendizaje de Vue.js, Tyscript and electron</main>
+  <main>
+    <h5>Esta pagina esta hecha solamente para el aprendizaje de Vue.js, Tyscript and electron</h5>
+  </main>
 </template>

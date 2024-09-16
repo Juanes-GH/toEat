@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <header class="background-color:">
     <div class="wrapper">
-      <img alt="pokemonLogo" src="../public/Logo.jpg" class="logo" to="/" />
+      <img alt="pokemonLogo" src="../public/Logo.png" class="logo" to="/" />
 
       <div class="search-bar">
         <input class="text-bar" type="text" />
@@ -24,7 +24,7 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <style scoped>
 header {
-  background-color: #fbf5d3;
+  background-color: #616161;
 }
 .wrapper {
   display: flex;
@@ -51,7 +51,7 @@ nav {
 .home-link {
   padding: 1rem;
   text-decoration: none;
-  color: #006cee;
+  color: #fc4580;
 
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
@@ -64,7 +64,7 @@ nav {
 .pokemon-list-link {
   padding: 1rem;
   text-decoration: none;
-  color: #006cee;
+  color: #fc4580;
 
   font-family: 'Roboto', sans-serif;
   font-weight: 700;

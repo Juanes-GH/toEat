@@ -1,4 +1,3 @@
-// src/services/pokemonService.ts
 import axios from 'axios'
 
 interface Pokemon {
